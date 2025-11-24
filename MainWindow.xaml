@@ -6,7 +6,51 @@
         xmlns:local="clr-namespace:Soundboard"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <!-- Have set amount of buttons for now -->
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="Padding" Value="20,20,20,20"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Grid.Column="0">
+                <Button>Button 1</Button>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1">
+                <Button>Button 2</Button>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="2">
+                <Button>Button 3</Button>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="0">
+                <Button>Button 4</Button>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="1">
+                <Button>Button 5</Button>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="2">
+                <Button>Button 6</Button>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="0">
+                <Button>Button 7</Button>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="1">
+                <Button>Button 8</Button>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="2">
+                <Button>Button 9</Button>
+            </Border>
+        </Grid>
+    </ScrollViewer>
 </Window>
