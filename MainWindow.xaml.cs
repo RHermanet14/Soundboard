@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Media;
 
 namespace Soundboard
 {
@@ -17,6 +18,7 @@ namespace Soundboard
     public partial class MainWindow : Window
     {
         private int file_count, numCols, numRows;
+        private string? folder_path;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +34,8 @@ namespace Soundboard
         private void Load_Preferences()
         {
             // Load user preferences
-            numCols = 3; // Set columns for now
+            numCols = Properties.Settings.Default.numCols;
+            folder_path = Properties.Settings.Default.folderPath;
         }
 
         private void Read_Folder()
@@ -92,8 +95,9 @@ namespace Soundboard
             {
                 if (button.Content is string content)
                 {
-                    MessageBox.Show($"You clicked {content}");
-                    // Find and play the corresponding sound file
+                    MediaPlayer player = new();
+                    player.Open(new Uri(@$"{folder_path}\{content} .mp3")); // Remove quotes from folder_path when saving
+                    player.Play();
                 }
             }
         }

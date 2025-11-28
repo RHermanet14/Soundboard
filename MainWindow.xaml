@@ -7,11 +7,24 @@
         mc:Ignorable="d"
         Title="Soundboard" Height="450" Width="800"
         Loaded="On_Startup">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid x:Name="g">
-            <Grid.Resources>
-            </Grid.Resources>
-        </Grid>
-    </ScrollViewer>
+    <StackPanel>
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="Open"/>
+                <MenuItem Header="Close"/>
+                <MenuItem Header="Exit"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Copy"/>
+                <MenuItem Header="Paste"/>
+            </MenuItem>
+        </Menu>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="g">
+                <Grid.Resources>
+                </Grid.Resources>
+            </Grid>
+        </ScrollViewer>
+    </StackPanel>
 
 </Window>
