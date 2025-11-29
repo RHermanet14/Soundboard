@@ -46,5 +46,17 @@ namespace Soundboard.Properties {
                 this["folderPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string openPath {
+            get {
+                return ((string)(this["openPath"]));
+            }
+            set {
+                this["openPath"] = value;
+            }
+        }
     }
 }

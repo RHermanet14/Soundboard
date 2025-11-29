@@ -10,9 +10,9 @@
     <StackPanel>
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="Open"/>
-                <MenuItem Header="Close"/>
-                <MenuItem Header="Exit"/>
+                <MenuItem Header="Open Folder" Click="Open_Folder"/>
+                <MenuItem Header="Close" Click="Close_Soundboard"/>
+                <MenuItem Header="Exit" Click="Exit_Application"/>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Copy"/>
