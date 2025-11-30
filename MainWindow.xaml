@@ -7,16 +7,20 @@
         mc:Ignorable="d"
         Title="Soundboard" Height="450" Width="800"
         Loaded="On_Startup">
-    <StackPanel>
-        <Menu>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Open"/>
-                <MenuItem Header="Close"/>
-                <MenuItem Header="Exit"/>
+                <MenuItem Header="Open Folder" Click="Open_Folder"/>
+                <MenuItem Header="Close" Click="Close_Soundboard"/>
+                <MenuItem Header="Exit" Click="Exit_Application"/>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Copy"/>
                 <MenuItem Header="Paste"/>
+            </MenuItem>
+            <MenuItem Header="Options">
+                <MenuItem Header="Preferences"/>
+                
             </MenuItem>
         </Menu>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -25,6 +29,6 @@
                 </Grid.Resources>
             </Grid>
         </ScrollViewer>
-    </StackPanel>
+    </DockPanel>
 
 </Window>

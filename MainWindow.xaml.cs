@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using Microsoft.Win32;
+using System;
+using System.IO;
+using System.Media;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Media;
 
 namespace Soundboard
 {
@@ -19,6 +22,9 @@ namespace Soundboard
     {
         private int file_count, numCols, numRows;
         private string? folder_path;
+        private string[]? directory;
+        private static readonly string[] formats = [".mp3", ".wav", ".aiff", ".wma", ".aac", ".flac"];
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,27 +33,79 @@ namespace Soundboard
         private void On_Startup(object sender, RoutedEventArgs e)
         {
             Load_Preferences();
-            Read_Folder();
-            Initialize_Grid();
+            Load_Soundboard();
         }
 
         private void Load_Preferences()
         {
             // Load user preferences
             numCols = Properties.Settings.Default.numCols;
-            folder_path = Properties.Settings.Default.folderPath;
+            if (!Properties.Settings.Default.folderPath.IsWhiteSpace() && Properties.Settings.Default.folderPath != null)
+            {
+                folder_path = Properties.Settings.Default.folderPath;
+                return;
+            }
+            folder_path = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
+            folder_path ??= Environment.CurrentDirectory;
+        }
+
+        private void Load_Soundboard()
+        {
+            Clear_Grid();
+            Read_Folder();
+            Initialize_Grid();
+        }
+
+        private void Clear_Grid()
+        {
+            g.Children.Clear();
+            g.RowDefinitions.Clear();
+            g.ColumnDefinitions.Clear();
         }
 
         private void Read_Folder()
         {
-            // Read sound files from folder
-            file_count = 10; // Set amount for now
+            if (folder_path == null || folder_path.IsWhiteSpace())
+            {
+                file_count = 0;
+                return;
+            }
+            directory = [.. Directory.GetFiles(folder_path).Where(file => formats.Any(file.ToLower().EndsWith))];
+            file_count = directory.Length;
+        }
+
+        private void Open_Folder(object sender, RoutedEventArgs e)
+        {
+            OpenFolderDialog ofd = new()
+            {
+                InitialDirectory = folder_path,
+                Title = "Choose a Folder"
+            };
+            if(ofd.ShowDialog() == true)
+            {
+                folder_path = ofd.FolderName;
+                Properties.Settings.Default.folderPath = folder_path;
+                Properties.Settings.Default.Save();
+                Load_Soundboard();
+            }
+        }
+
+        private void Close_Soundboard(object sender, RoutedEventArgs e)
+        {
+            folder_path = null;
+            Properties.Settings.Default.folderPath = folder_path;
+            Properties.Settings.Default.Save();
+            Load_Soundboard();
+        }
+
+        private void Exit_Application(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void Initialize_Grid()
         {
-            //numCols = g.ColumnDefinitions.Count;
-            if (file_count == 0)
+            if (file_count == 0 || folder_path == null)
             {
                 // Do special screen for no files
                 TextBlock noFilesText = new()
@@ -73,18 +131,22 @@ namespace Soundboard
             {
                 g.RowDefinitions.Add(new RowDefinition());
             }
-            for (int i = 0; i < file_count; i++)
+            if (directory == null) return;
+            int fileIndex = 0;
+            foreach (string file in directory)
             {
                 Button button = new()
                 {
-                    Content = $"Button {i + 1}",
+                    Content = file.Substring(folder_path.Length + 1, file.Length - folder_path.Length - 5),
                     Margin = new Thickness(20),
-                    MinHeight = 50
+                    MinHeight = 50,
+                    Tag = file
                 };
                 button.Click += Button_Click;
-                Grid.SetRow(button, i / numCols);
-                Grid.SetColumn(button, i % numCols);
+                Grid.SetRow(button, fileIndex / numCols);
+                Grid.SetColumn(button, fileIndex % numCols);
                 g.Children.Add(button);
+                fileIndex++;
             }
         }
 
@@ -93,10 +155,10 @@ namespace Soundboard
             // get which button was clicked
             if (e.Source is Button button)
             {
-                if (button.Content is string content)
+                if (button.Tag is string file)
                 {
                     MediaPlayer player = new();
-                    player.Open(new Uri(@$"{folder_path}\{content} .mp3")); // Remove quotes from folder_path when saving
+                    player.Open(new Uri($"{file}"));
                     player.Play();
                 }
             }
