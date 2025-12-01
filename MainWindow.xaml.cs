@@ -24,6 +24,7 @@ namespace Soundboard
         private string? folder_path;
         private string[]? directory;
         private static readonly string[] formats = [".mp3", ".wav", ".aiff", ".wma", ".aac", ".flac"];
+        private static MediaPlayer[] sounds = [];
 
         public MainWindow()
         {
@@ -49,9 +50,11 @@ namespace Soundboard
             folder_path ??= Environment.CurrentDirectory;
         }
 
+        #region main soundboard logic
         private void Load_Soundboard()
         {
             Clear_Grid();
+            Clear_Sounds();
             Read_Folder();
             Initialize_Grid();
         }
@@ -61,6 +64,15 @@ namespace Soundboard
             g.Children.Clear();
             g.RowDefinitions.Clear();
             g.ColumnDefinitions.Clear();
+        }
+
+        private static void Clear_Sounds()
+        {
+            foreach (MediaPlayer player in sounds)
+            {
+                player.Close();
+            }
+            sounds = [];
         }
 
         private void Read_Folder()
@@ -74,6 +86,72 @@ namespace Soundboard
             file_count = directory.Length;
         }
 
+        private void Initialize_Grid()
+        {
+            if (file_count == 0 || folder_path == null)
+            {
+                // Do special screen for no files
+                TextBlock noFilesText = new()
+                {
+                    Text = "Select a folder",
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    FontSize = 24,
+                };
+                g.Children.Add(noFilesText);
+                return;
+            }
+            else if (numCols == 0)
+            {
+                MessageBox.Show("Number of columns cannot be zero.");
+                return;
+            }
+            for (int i = 0; i < numCols; i++)
+            {
+                g.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            numRows = (int)(Math.Ceiling((decimal)file_count / (decimal)numCols));
+            for (int i = 0; i < numRows; i++)
+            {
+                g.RowDefinitions.Add(new RowDefinition());
+            }
+            if (directory == null) return;
+            int fileIndex = 0;
+            foreach (string file in directory)
+            {
+                MediaPlayer player = new();
+                player.Open(new Uri($"{file}"));
+                sounds = [.. sounds, player];
+
+                Button button = new()
+                {
+                    Content = file.Substring(folder_path.Length + 1, file.Length - folder_path.Length - 5),
+                    Margin = new Thickness(20),
+                    MinHeight = 50,
+                    Tag = fileIndex
+                };
+                button.Click += Button_Click;
+                Grid.SetRow(button, fileIndex / numCols);
+                Grid.SetColumn(button, fileIndex % numCols);
+                g.Children.Add(button);
+                fileIndex++;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // get which button was clicked
+            if (e.Source is Button button)
+            {
+                if (button.Tag is int index)
+                {
+                    sounds[index].Play();
+                }
+            }
+        }
+        #endregion
+
+        #region File buttons
         private void Open_Folder(object sender, RoutedEventArgs e)
         {
             OpenFolderDialog ofd = new()
@@ -102,66 +180,28 @@ namespace Soundboard
         {
             Application.Current.Shutdown();
         }
+        #endregion
 
-        private void Initialize_Grid()
+        #region view buttons
+        #endregion
+
+        #region Option buttons
+        #endregion
+
+        #region bottom buttons
+        private void Refresh_Soundboard(object sender, RoutedEventArgs e)
         {
-            if (file_count == 0 || folder_path == null)
-            {
-                // Do special screen for no files
-                TextBlock noFilesText = new()
-                {
-                    Text = "Select a folder",
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    FontSize = 24,
-                };
-                g.Children.Add(noFilesText);
-                return;
-            } else if (numCols == 0)
-            {
-                MessageBox.Show("Number of columns cannot be zero.");
-                return;
-            }
-            for(int i = 0; i < numCols; i++)
-            {
-                g.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-            numRows = (int)(Math.Ceiling((decimal)file_count / (decimal)numCols));
-            for (int i = 0; i < numRows; i++)
-            {
-                g.RowDefinitions.Add(new RowDefinition());
-            }
-            if (directory == null) return;
-            int fileIndex = 0;
-            foreach (string file in directory)
-            {
-                Button button = new()
-                {
-                    Content = file.Substring(folder_path.Length + 1, file.Length - folder_path.Length - 5),
-                    Margin = new Thickness(20),
-                    MinHeight = 50,
-                    Tag = file
-                };
-                button.Click += Button_Click;
-                Grid.SetRow(button, fileIndex / numCols);
-                Grid.SetColumn(button, fileIndex % numCols);
-                g.Children.Add(button);
-                fileIndex++;
-            }
+            Load_Soundboard();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Stop_Sounds(object sender, RoutedEventArgs e)
         {
-            // get which button was clicked
-            if (e.Source is Button button)
+            // Stop all sounds
+            foreach (MediaPlayer player in sounds)
             {
-                if (button.Tag is string file)
-                {
-                    MediaPlayer player = new();
-                    player.Open(new Uri($"{file}"));
-                    player.Play();
-                }
+                player.Stop();
             }
         }
+        #endregion
     }
 }

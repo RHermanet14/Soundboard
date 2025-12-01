@@ -12,18 +12,27 @@
             <MenuItem Header="File">
                 <MenuItem Header="Open Folder" Click="Open_Folder"/>
                 <MenuItem Header="Close" Click="Close_Soundboard"/>
+                <MenuItem Header="Restart" Click="Refresh_Soundboard"/>
                 <MenuItem Header="Exit" Click="Exit_Application"/>
             </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Header="Copy"/>
-                <MenuItem Header="Paste"/>
+            <MenuItem Header="View">
+                <MenuItem Header="Fullscreen"/>
+                <MenuItem Header="Cancel Sound"/>
+                <MenuItem Header="Refresh Soundboard"/>
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Preferences"/>
-                
+                <MenuItem Header="Manage Sounds"/>
+                <MenuItem Header="Import Sounds"/>
             </MenuItem>
         </Menu>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid DockPanel.Dock="Bottom" Height="50" Background="LightGray">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Refresh Soundboard" Margin="5,5,10,5" Click="Refresh_Soundboard"/>
+                <Button Content="Cancel Sound" Margin="10,5,5,5" Click="Stop_Sounds"/>
+            </StackPanel>
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" DockPanel.Dock="Top">
             <Grid x:Name="g">
                 <Grid.Resources>
                 </Grid.Resources>
