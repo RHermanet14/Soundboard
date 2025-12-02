@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Soundboard"
         mc:Ignorable="d"
         Title="Soundboard" Height="450" Width="800"
-        Loaded="On_Startup">
+        Loaded="On_Startup"
+        x:Name="window">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -16,14 +17,14 @@
                 <MenuItem Header="Exit" Click="Exit_Application"/>
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Fullscreen"/>
-                <MenuItem Header="Cancel Sound"/>
-                <MenuItem Header="Refresh Soundboard"/>
+                <MenuItem Header="Fullscreen" Click="Fullscreen"/>
+                <MenuItem Header="Cancel Sound" Click="Toggle_Cancel_Button"/>
+                <MenuItem Header="Refresh Soundboard" Click="Toggle_Refresh_Button"/>
             </MenuItem>
             <MenuItem Header="Options">
-                <MenuItem Header="Preferences"/>
-                <MenuItem Header="Manage Sounds"/>
-                <MenuItem Header="Import Sounds"/>
+                <MenuItem Header="Preferences" Click="Open_Preferences"/>
+                <MenuItem Header="Manage Sounds" Click="Modify_Sounds"/>
+                <MenuItem Header="Import Sounds" Click="Add_Sound"/>
             </MenuItem>
         </Menu>
         <Grid DockPanel.Dock="Bottom" Height="50" Background="LightGray">
