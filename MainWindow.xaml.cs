@@ -25,6 +25,7 @@ namespace Soundboard
         private string[]? directory;
         private static readonly string[] formats = [".mp3", ".wav", ".aiff", ".wma", ".aac", ".flac"];
         private static MediaPlayer[] sounds = [];
+        private bool is_fullscreen = false;
 
         public MainWindow()
         {
@@ -35,6 +36,15 @@ namespace Soundboard
         {
             Load_Preferences();
             Load_Soundboard();
+            KeyDown += new KeyEventHandler(Fullscreen_Keys);
+        }
+
+        private void Fullscreen_Keys(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F11)
+                Fullscreen(this, new RoutedEventArgs());
+            else if (e.Key == Key.Escape && is_fullscreen)
+                Fullscreen(this, new RoutedEventArgs());
         }
 
         private void Load_Preferences()
@@ -183,9 +193,47 @@ namespace Soundboard
         #endregion
 
         #region view buttons
+        private void Fullscreen(object sender, RoutedEventArgs e)
+        {
+            is_fullscreen = !is_fullscreen;
+            if (is_fullscreen)
+            {
+                window.WindowState = WindowState.Maximized;
+                window.WindowStyle = WindowStyle.None;
+            }
+            else
+            {
+                window.WindowState = WindowState.Normal;
+                window.WindowStyle = WindowStyle.SingleBorderWindow;
+            }
+        }
+
+        private void Toggle_Cancel_Button(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Toggle_Refresh_Button(object sender, RoutedEventArgs e)
+        {
+
+        }
         #endregion
 
         #region Option buttons
+        private void Open_Preferences(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Modify_Sounds(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Add_Sound(object sender, RoutedEventArgs e)
+        {
+
+        }
         #endregion
 
         #region bottom buttons
