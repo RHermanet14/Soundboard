@@ -18,8 +18,8 @@
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Fullscreen" Click="Fullscreen"/>
-                <MenuItem Header="Cancel Sound" Click="Toggle_Cancel_Button"/>
-                <MenuItem Header="Refresh Soundboard" Click="Toggle_Refresh_Button"/>
+                <MenuItem x:Name="cancel_check" Header="Cancel Sound" Click="Toggle_Cancel_Button" IsCheckable="True" IsChecked="True"/>
+                <MenuItem x:Name="refresh_check" Header="Refresh Soundboard" Click="Toggle_Refresh_Button" IsCheckable="True" IsChecked="True"/>
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Preferences" Click="Open_Preferences"/>
@@ -29,8 +29,8 @@
         </Menu>
         <Grid DockPanel.Dock="Bottom" Height="50" Background="LightGray">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Refresh Soundboard" Margin="5,5,10,5" Click="Refresh_Soundboard"/>
-                <Button Content="Cancel Sound" Margin="10,5,5,5" Click="Stop_Sounds"/>
+                <Button x:Name="rfb" Content="Refresh Soundboard" Margin="5,5,10,5" Click="Refresh_Soundboard"/>
+                <Button x:Name="clb" Content="Cancel Sound" Margin="10,5,5,5" Click="Stop_Sounds"/>
             </StackPanel>
         </Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" DockPanel.Dock="Top">

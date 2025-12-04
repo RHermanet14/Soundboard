@@ -46,5 +46,29 @@ namespace Soundboard.Properties {
                 this["folderPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool refresh {
+            get {
+                return ((bool)(this["refresh"]));
+            }
+            set {
+                this["refresh"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool cancel {
+            get {
+                return ((bool)(this["cancel"]));
+            }
+            set {
+                this["cancel"] = value;
+            }
+        }
     }
 }
