@@ -50,6 +50,8 @@ namespace Soundboard
         private void Load_Preferences()
         {
             // Load user preferences
+            Button_Visibility_Helper(Properties.Settings.Default.cancel, clb, cancel_check);
+            Button_Visibility_Helper(Properties.Settings.Default.refresh, rfb, refresh_check);
             numCols = Properties.Settings.Default.numCols;
             if (!Properties.Settings.Default.folderPath.IsWhiteSpace() && Properties.Settings.Default.folderPath != null)
             {
@@ -58,6 +60,20 @@ namespace Soundboard
             }
             folder_path = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
             folder_path ??= Environment.CurrentDirectory;
+        }
+
+        private static void Button_Visibility_Helper(bool visible, Button button, MenuItem menuItem)
+        {
+            if (visible)
+            {
+                button.Visibility = Visibility.Visible;
+                menuItem.IsChecked = true;
+            } else
+            {
+                button.Visibility = Visibility.Collapsed;
+                menuItem.IsChecked = false;
+            }
+                
         }
 
         #region main soundboard logic
@@ -210,19 +226,30 @@ namespace Soundboard
 
         private void Toggle_Cancel_Button(object sender, RoutedEventArgs e)
         {
-
+            if (clb.IsVisible)
+                clb.Visibility = Visibility.Collapsed;
+            else
+                clb.Visibility = Visibility.Visible;
+            Properties.Settings.Default.cancel = !Properties.Settings.Default.cancel;
+            Properties.Settings.Default.Save();
         }
 
         private void Toggle_Refresh_Button(object sender, RoutedEventArgs e)
         {
-
+            if (rfb.IsVisible)
+                rfb.Visibility = Visibility.Collapsed;
+            else
+                rfb.Visibility = Visibility.Visible;
+            Properties.Settings.Default.refresh = !Properties.Settings.Default.refresh;
+            Properties.Settings.Default.Save();
         }
         #endregion
 
         #region Option buttons
         private void Open_Preferences(object sender, RoutedEventArgs e)
         {
-            
+            PreferencesWindow pfw = new();
+            pfw.Show();
         }
 
         private void Modify_Sounds(object sender, RoutedEventArgs e)
