@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Media;
 using System.Text;
@@ -53,7 +54,7 @@ namespace Soundboard
             Button_Visibility_Helper(Properties.Settings.Default.cancel, clb, cancel_check);
             Button_Visibility_Helper(Properties.Settings.Default.refresh, rfb, refresh_check);
             numCols = Properties.Settings.Default.numCols;
-            if (!Properties.Settings.Default.folderPath.IsWhiteSpace() && Properties.Settings.Default.folderPath != null)
+            if (!Properties.Settings.Default.folderPath.IsWhiteSpace() && Properties.Settings.Default.folderPath != null && Directory.Exists(Properties.Settings.Default.folderPath))
             {
                 folder_path = Properties.Settings.Default.folderPath;
                 return;
@@ -254,7 +255,22 @@ namespace Soundboard
 
         private void Modify_Sounds(object sender, RoutedEventArgs e)
         {
-
+            if (folder_path == null || folder_path.IsWhiteSpace())
+                return;
+            try
+            {
+                ProcessStartInfo startInfo = new()
+                {
+                    Arguments = folder_path,
+                    FileName = "explorer.exe",
+                    Verb ="runas"
+                };
+                Process.Start(startInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not open folder: {ex.Message}");
+            }
         }
 
         private void Add_Sound(object sender, RoutedEventArgs e)
