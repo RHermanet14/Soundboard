@@ -6,7 +6,47 @@
         xmlns:local="clr-namespace:Soundboard"
         mc:Ignorable="d"
         Title="PreferencesWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Margin="10,0,0,0">
+        <Label Content="Preferences" FontSize="24" />
+        <Separator Background="Gray"/>
+        <Grid Margin="0,10,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Number of Columns" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock Text="Minimum Button Size" Grid.Row="1"/>
+            <TextBlock Text="Soundboard Volume" Grid.Row="2"/>
+            <TextBlock Text="Acceptable Formats" Grid.Row="3"/>
+            <TextBlock Text="Theme" Grid.Row="4"/>
+
+            <TextBox Grid.Column="1"/>
+            <TextBox Grid.Column="1" Grid.Row="1"/>
+            <TextBox Grid.Column="1" Grid.Row="2"/>
+            <TextBox Grid.Column="1" Grid.Row="3"/>
+            <ComboBox Grid.Column="1" Grid.Row="4" SelectedIndex="0">
+                <ComboBoxItem Content="Light" />
+                <ComboBoxItem Content="Dark" />
+                <ComboBoxItem Content="Custom" />
+            </ComboBox>
+        </Grid>
+        <Grid Grid.IsSharedSizeScope="True" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="ButtonColumn" />
+                <ColumnDefinition SharedSizeGroup="ButtonColumn" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Save Changes" Grid.Column="0" Margin="5" />
+            <Button Content="Restore to Default" Grid.Column="1" Margin="5" />
+        </Grid>
+
+    </StackPanel>
 </Window>
