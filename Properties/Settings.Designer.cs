@@ -70,5 +70,17 @@ namespace Soundboard.Properties {
                 this["cancel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int minButtonSize {
+            get {
+                return ((int)(this["minButtonSize"]));
+            }
+            set {
+                this["minButtonSize"] = value;
+            }
+        }
     }
 }
