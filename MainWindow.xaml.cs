@@ -24,7 +24,7 @@ namespace Soundboard
         private int file_count, numCols, numRows;
         private string? folder_path;
         private string[]? directory;
-        private static readonly string[] formats = [".mp3", ".wav", ".aiff", ".wma", ".aac", ".flac"];
+        private static readonly string[] formats = [".mp3", ".wav", ".aiff", ".wma", ".aac", ".flac"]; // Change to application setting
         private static MediaPlayer[] sounds = [];
         private bool is_fullscreen = false;
 
@@ -33,9 +33,9 @@ namespace Soundboard
             InitializeComponent();
         }
 
+        #region Startup
         private void On_Startup(object sender, RoutedEventArgs e)
         {
-            Load_Preferences();
             Load_Soundboard();
             KeyDown += new KeyEventHandler(Fullscreen_Keys);
         }
@@ -46,6 +46,17 @@ namespace Soundboard
                 Fullscreen(this, new RoutedEventArgs());
             else if (e.Key == Key.Escape && is_fullscreen)
                 Fullscreen(this, new RoutedEventArgs());
+        }
+        #endregion
+
+        #region main soundboard logic
+        public void Load_Soundboard()
+        {
+            Load_Preferences();
+            Clear_Grid();
+            Clear_Sounds();
+            Read_Folder();
+            Initialize_Grid();
         }
 
         private void Load_Preferences()
@@ -69,21 +80,12 @@ namespace Soundboard
             {
                 button.Visibility = Visibility.Visible;
                 menuItem.IsChecked = true;
-            } else
+            }
+            else
             {
                 button.Visibility = Visibility.Collapsed;
                 menuItem.IsChecked = false;
             }
-                
-        }
-
-        #region main soundboard logic
-        private void Load_Soundboard()
-        {
-            Clear_Grid();
-            Clear_Sounds();
-            Read_Folder();
-            Initialize_Grid();
         }
 
         private void Clear_Grid()
@@ -154,7 +156,7 @@ namespace Soundboard
                 {
                     Content = file.Substring(folder_path.Length + 1, file.Length - folder_path.Length - 5),
                     Margin = new Thickness(20),
-                    MinHeight = 50,
+                    MinHeight = Properties.Settings.Default.minButtonSize,
                     Tag = fileIndex
                 };
                 button.Click += Button_Click;
@@ -249,7 +251,7 @@ namespace Soundboard
         #region Option buttons
         private void Open_Preferences(object sender, RoutedEventArgs e)
         {
-            PreferencesWindow pfw = new();
+            PreferencesWindow pfw = new(this);
             pfw.Show();
         }
 
