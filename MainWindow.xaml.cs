@@ -150,6 +150,7 @@ namespace Soundboard
             {
                 MediaPlayer player = new();
                 player.Open(new Uri($"{file}"));
+                player.Volume = Properties.Settings.Default.volume;
                 sounds = [.. sounds, player];
 
                 Button button = new()
