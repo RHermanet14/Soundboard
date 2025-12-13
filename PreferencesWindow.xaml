@@ -28,10 +28,13 @@
             <TextBlock Text="Soundboard Volume" Grid.Row="2"/>
             <TextBlock Text="Acceptable Formats" Grid.Row="3"/>
             <TextBlock Text="Theme" Grid.Row="4"/>
-
+            
             <TextBox Name ="column_box" Grid.Column="1"/>
             <TextBox Name="size_box" Grid.Column="1" Grid.Row="1"/>
-            <TextBox Name="volume_box" Grid.Column="1" Grid.Row="2"/>
+            <DockPanel Grid.Column="1" Grid.Row="2">
+                <TextBox Name ="volume_box" DockPanel.Dock="Left" Width="25" TextChanged="Volume_Box_Changed" TextAlignment="Center" VerticalAlignment="Center"/>
+                <Slider Name="volume_slider" Minimum="0" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="Volume_Slider_Changed"/>
+            </DockPanel>
             <TextBox Name="format_box" Grid.Column="1" Grid.Row="3"/>
             <ComboBox Grid.Column="1" Grid.Row="4" SelectedIndex="0">
                 <ComboBoxItem Content="Light" />
