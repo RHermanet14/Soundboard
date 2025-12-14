@@ -35,7 +35,16 @@
                 <TextBox Name ="volume_box" DockPanel.Dock="Left" Width="25" TextChanged="Volume_Box_Changed" TextAlignment="Center" VerticalAlignment="Center"/>
                 <Slider Name="volume_slider" Minimum="0" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight" ValueChanged="Volume_Slider_Changed"/>
             </DockPanel>
-            <TextBox Name="format_box" Grid.Column="1" Grid.Row="3"/>
+            
+            <StackPanel Grid.Row="3" Grid.Column="1" Margin="10">
+                <ListBox Height="150" />
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBox Width="200" Name="format_box" />
+                    <Button Content="Add" Margin="5,0,0,0"/>
+                    <Button Content="Remove" Margin="5,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+            
             <ComboBox Grid.Column="1" Grid.Row="4" SelectedIndex="0">
                 <ComboBoxItem Content="Light" />
                 <ComboBoxItem Content="Dark" />
