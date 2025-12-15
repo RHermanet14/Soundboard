@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ namespace Soundboard
     public partial class PreferencesWindow : Window
     {
         private readonly MainWindow _main;
+        private System.Collections.Specialized.StringCollection Formats { get; set; } = [];
         public PreferencesWindow(MainWindow main)
         {
             InitializeComponent();
@@ -35,7 +37,9 @@ namespace Soundboard
             size_box.Text = Properties.Settings.Default.minButtonSize.ToString();
             volume_box.Text = (Properties.Settings.Default.volume * 100).ToString();
             volume_slider.Value = Properties.Settings.Default.volume * 100;
-            format_box.Text = "mp3";
+            format_box.Text = "";
+            Formats = Properties.Settings.Default.formats;
+            listbox.ItemsSource = Formats;
         }
 
         private void Save_Changes(object sender, RoutedEventArgs e)

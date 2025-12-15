@@ -24,7 +24,8 @@ namespace Soundboard
         private int file_count, numCols, numRows;
         private string? folder_path;
         private string[]? directory;
-        private static readonly string[] formats = [".mp3", ".wav", ".aiff", ".wma", ".aac", ".flac"]; // Change to application setting
+        //private static readonly string[] formats = [".mp3", ".wav", ".aiff", ".wma", ".aac", ".flac"]; // Change to application setting
+        private System.Collections.Specialized.StringCollection Formats { get; set; } = [];
         private static MediaPlayer[] sounds = [];
         private bool is_fullscreen = false;
 
@@ -64,6 +65,7 @@ namespace Soundboard
             // Load user preferences
             Button_Visibility_Helper(Properties.Settings.Default.cancel, clb, cancel_check);
             Button_Visibility_Helper(Properties.Settings.Default.refresh, rfb, refresh_check);
+            Formats = Properties.Settings.Default.formats;
             numCols = Properties.Settings.Default.numCols;
             if (!Properties.Settings.Default.folderPath.IsWhiteSpace() && Properties.Settings.Default.folderPath != null && Directory.Exists(Properties.Settings.Default.folderPath))
             {
@@ -111,7 +113,15 @@ namespace Soundboard
                 file_count = 0;
                 return;
             }
-            directory = [.. Directory.GetFiles(folder_path).Where(file => formats.Any(file.ToLower().EndsWith))];
+            var formats = Formats.Cast<string>().ToArray();
+
+            directory =
+            [
+                .. Directory.GetFiles(folder_path)
+                .Where(file => formats.Any(ext =>
+                file.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+            ];
+            //directory = [.. Directory.GetFiles(folder_path).Where(file => Formats.Any(file.ToLower().EndsWith))];
             file_count = directory.Length;
         }
 
