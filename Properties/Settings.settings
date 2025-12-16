@@ -20,5 +20,16 @@
     <Setting Name="volume" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="formats" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;.mp3&lt;/string&gt;
+  &lt;string&gt;.wav&lt;/string&gt;
+  &lt;string&gt;.aiff&lt;/string&gt;
+  &lt;string&gt;.wma&lt;/string&gt;
+  &lt;string&gt;.aac&lt;/string&gt;
+  &lt;string&gt;.flac&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
