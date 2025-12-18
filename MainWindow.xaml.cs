@@ -1,18 +1,10 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Diagnostics;
 using System.IO;
-using System.Media;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Soundboard
 {
@@ -121,7 +113,6 @@ namespace Soundboard
                 .Where(file => formats.Any(ext =>
                 file.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
             ];
-            //directory = [.. Directory.GetFiles(folder_path).Where(file => Formats.Any(file.ToLower().EndsWith))];
             file_count = directory.Length;
         }
 
@@ -288,7 +279,37 @@ namespace Soundboard
 
         private void Add_Sound(object sender, RoutedEventArgs e)
         {
-
+            string filter = "";
+            int i;
+            for(i = 0; i < Formats.Count - 1; i++)
+            {
+                if (!string.IsNullOrEmpty(Formats[i]))
+                    filter += "*" + Formats[i] + ";";
+            }
+            filter += "*" + Formats[i];
+            filter = $"Acceptable Formats ({filter})|{filter}";
+            OpenFileDialog ofd = new()
+            {
+                InitialDirectory = folder_path,
+                Title = "Add a File",
+                Filter = filter
+            };
+            if (ofd.ShowDialog() == true)
+            {
+                string file = ofd.FileName;
+                int last_index = file.LastIndexOf('\\');
+                if (last_index == -1 || folder_path == null)
+                    return;
+                file = file[(last_index + 1)..];
+                string dest_path = System.IO.Path.Combine(folder_path, file);
+                if(File.Exists(dest_path))
+                {
+                    MessageBox.Show("File already exists in the soundboard folder.");
+                    return;
+                }
+                File.Copy(ofd.FileName, dest_path);
+                Load_Soundboard();
+            }
         }
         #endregion
 

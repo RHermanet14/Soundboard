@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Windows.Themes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -50,6 +51,7 @@ namespace Soundboard
                 Properties.Settings.Default.minButtonSize = size;
             if (volume_slider.Value >= 0 && volume_slider.Value <= 100)
                 Properties.Settings.Default.volume = volume_slider.Value / 100.0;
+            Properties.Settings.Default.formats = Formats;
             Properties.Settings.Default.Save();
             Change_Main_Window();
         }
@@ -78,6 +80,30 @@ namespace Soundboard
         {
             if (int.TryParse(volume_box.Text, out int vol) && vol >= 0 && vol <= 100)
                 volume_slider.Value = vol;
+        }
+
+        private void Add_Format(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(format_box.Text)) return;
+            if (Formats.Contains(format_box.Text))
+            {
+                MessageBox.Show("This format is already in the list.", "Duplicate Format", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (!format_box.Text.StartsWith('.'))
+            {
+                MessageBox.Show("File format should start with a period (e.g., .mp3, .wav)", "Invalid Format", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            Formats.Add(format_box.Text);
+            listbox.Items.Refresh();
+            format_box.Text = "";
+        }
+
+        private void Remove_Format(object sender, RoutedEventArgs e)
+        {
+            Formats.Remove((string)listbox.SelectedItem);
+            listbox.Items.Refresh();
         }
     }
 }
