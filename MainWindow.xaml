@@ -9,7 +9,7 @@
         Loaded="On_Startup"
         x:Name="window">
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu x:Name="menu" DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Open Folder" Click="Open_Folder"/>
                 <MenuItem Header="Close" Click="Close_Soundboard"/>
@@ -27,7 +27,7 @@
                 <MenuItem Header="Import Sounds" Click="Add_Sound"/>
             </MenuItem>
         </Menu>
-        <Grid DockPanel.Dock="Bottom" Height="50" Background="LightGray">
+        <Grid x:Name="bottom_g" DockPanel.Dock="Bottom" Height="50" Background="LightGray">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="rfb" Content="Refresh Soundboard" Margin="5,5,10,5" Click="Refresh_Soundboard"/>
                 <Button x:Name="clb" Content="Cancel Sound" Margin="10,5,5,5" Click="Stop_Sounds"/>

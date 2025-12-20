@@ -16,7 +16,7 @@ namespace Soundboard
         private int file_count, numCols, numRows;
         private string? folder_path;
         private string[]? directory;
-        //private static readonly string[] formats = [".mp3", ".wav", ".aiff", ".wma", ".aac", ".flac"]; // Change to application setting
+        private Theme? theme;
         private System.Collections.Specialized.StringCollection Formats { get; set; } = [];
         private static MediaPlayer[] sounds = [];
         private bool is_fullscreen = false;
@@ -50,6 +50,7 @@ namespace Soundboard
             Clear_Sounds();
             Read_Folder();
             Initialize_Grid();
+            Load_Theme(); // Must be after grid is initialized
         }
 
         private void Load_Preferences()
@@ -66,6 +67,12 @@ namespace Soundboard
             }
             folder_path = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
             folder_path ??= Environment.CurrentDirectory;
+        }
+
+        private void Load_Theme()
+        {
+            theme = new(ThemeType.Dark);//new(Properties.Settings.Default.theme);
+            theme.SetMainTheme(g, bottom_g, menu);
         }
 
         private static void Button_Visibility_Helper(bool visible, Button button, MenuItem menuItem)
