@@ -45,7 +45,7 @@
                 </StackPanel>
             </StackPanel>
             
-            <ComboBox Grid.Column="1" Grid.Row="4" SelectedIndex="0">
+            <ComboBox x:Name="Theme" Grid.Column="1" Grid.Row="4" SelectedIndex="0">
                 <ComboBoxItem Content="Light" />
                 <ComboBoxItem Content="Dark" />
                 <ComboBoxItem Content="Custom" />
