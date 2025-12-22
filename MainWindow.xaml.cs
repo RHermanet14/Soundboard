@@ -21,10 +21,12 @@ namespace Soundboard
         private static MediaPlayer[] sounds = [];
         private bool is_fullscreen = false;
 
+        #region window logic
         public MainWindow()
         {
             InitializeComponent();
         }
+        #endregion
 
         #region Startup
         private void On_Startup(object sender, RoutedEventArgs e)
@@ -71,7 +73,7 @@ namespace Soundboard
 
         private void Load_Theme()
         {
-            theme = new(ThemeType.Dark);//new(Properties.Settings.Default.theme);
+            theme = new((ThemeType)Properties.Settings.Default.themeType);
             theme.SetMainTheme(g, bottom_g, menu);
         }
 
@@ -183,6 +185,9 @@ namespace Soundboard
             {
                 if (button.Tag is int index)
                 {
+                    // change to array of file paths, open new mediaplayer in this function to have multiple of same sound, but can't stop all sounds anymore
+                    // if sound is already playing, restart it
+                    sounds[index].Stop();
                     sounds[index].Play();
                 }
             }

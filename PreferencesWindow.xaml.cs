@@ -41,6 +41,7 @@ namespace Soundboard
             format_box.Text = "";
             Formats = Properties.Settings.Default.formats;
             listbox.ItemsSource = Formats;
+            Theme.SelectedIndex = Properties.Settings.Default.themeType - 1;
         }
 
         private void Save_Changes(object sender, RoutedEventArgs e)
@@ -51,6 +52,8 @@ namespace Soundboard
                 Properties.Settings.Default.minButtonSize = size;
             if (volume_slider.Value >= 0 && volume_slider.Value <= 100)
                 Properties.Settings.Default.volume = volume_slider.Value / 100.0;
+            if (Theme.SelectedIndex >= 0 && Theme.SelectedIndex <= 2)   
+                Properties.Settings.Default.themeType = Theme.SelectedIndex + 1;
             Properties.Settings.Default.formats = Formats;
             Properties.Settings.Default.Save();
             Change_Main_Window();
