@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Soundboard"
         mc:Ignorable="d"
-        Title="PreferencesWindow" Height="450" Width="800" Loaded="On_Startup">
+        Title="PreferencesWindow" Height="450" Width="800" Loaded="On_Startup"
+        x:Name="window">
     <StackPanel Margin="10,0,10,0">
-        <Label Content="Preferences" FontSize="24" />
+        <Label x:Name="preferences_label" Content="Preferences" FontSize="24" />
         <Separator Background="Gray"/>
-        <Grid Margin="0,10,0,20">
+        <Grid Margin="0,10,0,20" x:Name="preferences_grid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5*" />
@@ -51,7 +52,7 @@
                 <ComboBoxItem Content="Custom" />
             </ComboBox>
         </Grid>
-        <Grid Grid.IsSharedSizeScope="True" HorizontalAlignment="Right">
+        <Grid Grid.IsSharedSizeScope="True" HorizontalAlignment="Right" x:Name="button_grid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="ButtonColumn" />
                 <ColumnDefinition SharedSizeGroup="ButtonColumn" />
