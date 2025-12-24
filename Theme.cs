@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace Soundboard
 {
@@ -54,21 +55,101 @@ namespace Soundboard
         {
             grid.Background = BackgroundColor;
             foreach (UIElement control in grid.Children)
+            {
                 if (control is Control uiControl)
+                {
                     uiControl.Background = ButtonColor;
+                    uiControl.Foreground = TextColor;
+                }
+            }     
             menu.Background = OutlineColor;
+            menu.Foreground = TextColor;
             bottom_grid.Background = OutlineColor;
-            foreach (UIElement control in bottom_grid.Children)  
+            foreach (UIElement control in bottom_grid.Children)
+            {
                 if (control is StackPanel stackPanel)
+                {
                     foreach (UIElement stackControl in stackPanel.Children)
+                    {
                         if (stackControl is Control button)
+                        {
                             button.Background = ButtonColor;
+                            button.Foreground = TextColor;
+                        }
+                    }
+                } 
+            }                  
             // Fix title bar color, adjust theme colors for betterness
         }
 
-        public void SetPreferencesTheme(Window window)
+        public void SetPreferencesTheme(Window window, Label label, Grid preferences, Grid buttons)
         {
             window.Background = BackgroundColor;
+            window.Foreground = TextColor;
+            preferences.Background = OutlineColor;
+            label.Foreground = TextColor;
+            foreach (UIElement control in preferences.Children)
+            {
+                switch (control)
+                {
+                    case DockPanel dockPanel:
+                        foreach (UIElement dockControl in dockPanel.Children)
+                        {
+                            if (dockControl is Control uiControl)
+                            {
+                                uiControl.Background = ButtonColor;
+                                uiControl.Foreground = TextColor;
+                            }
+                        }
+                        break;
+                    case StackPanel stackPanel:
+                        foreach (UIElement stackControl in stackPanel.Children)
+                        {
+                            if (stackControl is StackPanel innerStack)
+                            {
+                                foreach (UIElement innerControl in innerStack.Children)
+                                {
+                                    if (innerControl is Control uiControl)
+                                    {
+                                        uiControl.Background = ButtonColor;
+                                        uiControl.Foreground = TextColor;
+                                    }
+                                }
+                            }
+                            else if (stackControl is Control uiControl)
+                            {
+                                uiControl.Background = ButtonColor;
+                                uiControl.Foreground = TextColor;
+                            }
+                        }
+                        break;
+                    case ComboBox:
+                        foreach(UIElement comboControl in ((ComboBox)control).Items)
+                        {
+                            if (comboControl is Control uiControl)
+                            {
+                                uiControl.Background = ButtonColor;
+                                uiControl.Foreground = TextColor;
+                            }
+                        }
+                        //control.SetValue(TextElement.ForegroundProperty, TextColor);
+                        break;
+                    case Control uiControl:
+                        uiControl.Background = ButtonColor;
+                        uiControl.Foreground = TextColor;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            foreach (UIElement control in buttons.Children)
+            {
+                if (control is Control uiControl)
+                {
+                    uiControl.Background = ButtonColor;
+                    uiControl.Foreground = TextColor;
+                }
+            }        
         }
     }
 }

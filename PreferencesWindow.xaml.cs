@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,7 +21,9 @@ namespace Soundboard
     public partial class PreferencesWindow : Window
     {
         private readonly MainWindow _main;
+        private Theme? theme;
         private System.Collections.Specialized.StringCollection Formats { get; set; } = [];
+
         public PreferencesWindow(MainWindow main)
         {
             InitializeComponent();
@@ -42,6 +45,13 @@ namespace Soundboard
             Formats = Properties.Settings.Default.formats;
             listbox.ItemsSource = Formats;
             Theme.SelectedIndex = Properties.Settings.Default.themeType - 1;
+            Load_Theme();
+        }
+
+        private void Load_Theme()
+        {
+            theme = new((ThemeType)Properties.Settings.Default.themeType);
+            theme.SetPreferencesTheme(window, preferences_label, preferences_grid, button_grid);
         }
 
         private void Save_Changes(object sender, RoutedEventArgs e)
@@ -56,6 +66,7 @@ namespace Soundboard
                 Properties.Settings.Default.themeType = Theme.SelectedIndex + 1;
             Properties.Settings.Default.formats = Formats;
             Properties.Settings.Default.Save();
+            Load_Theme();
             Change_Main_Window();
         }
 
