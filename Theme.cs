@@ -22,6 +22,7 @@ namespace Soundboard
         private readonly SolidColorBrush ButtonColor;
         private readonly SolidColorBrush TextColor;
         private readonly SolidColorBrush OutlineColor; // Menu and bottom grid
+        private Style? menuItemStyle;
 
         public Theme() : this(ThemeType.Light) { }
 
@@ -49,6 +50,21 @@ namespace Soundboard
                     OutlineColor = new(Color.FromRgb(200, 200, 200));
                     break;
             }
+            Initialize_Styles();
+        }
+
+        private void Initialize_Styles()
+        {
+            menuItemStyle = new Style(typeof(MenuItem));
+            menuItemStyle.Setters.Add(
+                new Setter(Control.ForegroundProperty, TextColor));
+            menuItemStyle.Setters.Add(
+                new Setter(Control.BackgroundProperty, OutlineColor));
+            menuItemStyle.Triggers.Add(new Trigger
+            {
+                Property = MenuItem.IsHighlightedProperty,
+                Value = true,
+            });
         }
 
         public void SetMainTheme(Grid grid, Grid bottom_grid, Menu menu)
@@ -62,8 +78,15 @@ namespace Soundboard
                     uiControl.Foreground = TextColor;
                 }
             }     
+
             menu.Background = OutlineColor;
             menu.Foreground = TextColor;
+            if (menuItemStyle != null)
+            {
+                menu.Resources.Clear();
+                menu.Resources.Add(typeof(MenuItem), menuItemStyle);
+            }
+
             bottom_grid.Background = OutlineColor;
             foreach (UIElement control in bottom_grid.Children)
             {
